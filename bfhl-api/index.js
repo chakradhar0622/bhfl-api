@@ -5,13 +5,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// === PUT YOUR DETAILS HERE ===
-// Use lowercase name + ddmmyyyy (as per the spec).
-const FULL_NAME = "chakradhar_naidu";      // change to your lowercase full name
-const DOB_DDMMYYYY = "22062005";           // change to your DOB in ddmmyyyy
-const EMAIL = "chakradharguravana25@gmail.com";    // change to your email
-const ROLL_NUMBER = "22BCE9849";        // change to your roll number
-// =================================
+const FULL_NAME = "guravana_chakradhar_naidu";      
+const DOB_DDMMYYYY = "22062005";          
+const EMAIL = "chakradharguravana25@gmail.com";   
+const ROLL_NUMBER = "22BCE9849";     
 
 const isDigitsOnly = (s) => /^[0-9]+$/.test(s);
 const isLettersOnly = (s) => /^[a-zA-Z]+$/.test(s);
@@ -29,7 +26,6 @@ app.post("/bfhl", (req, res) => {
   try {
     const data = req.body && Array.isArray(req.body.data) ? req.body.data : null;
 
-    // Default shape (in case of bad input)
     const base = {
       user_id: `${FULL_NAME}_${DOB_DDMMYYYY}`,
       email: EMAIL,
@@ -59,17 +55,17 @@ app.post("/bfhl", (req, res) => {
     for (const item of data) {
       const str = String(item);
 
-      // collect all alphabetic chars from any token for concat_string
+      
       for (const ch of str) {
         if (/[a-zA-Z]/.test(ch)) allLetters.push(ch);
       }
 
       if (isDigitsOnly(str)) {
         const n = parseInt(str, 10);
-        (n % 2 === 0 ? even_numbers : odd_numbers).push(str); // keep as strings
+        (n % 2 === 0 ? even_numbers : odd_numbers).push(str); 
         sum += n;
       } else if (isLettersOnly(str)) {
-        alphabets.push(str.toUpperCase()); // entire token to UPPER
+        alphabets.push(str.toUpperCase()); 
       } else {
         special_characters.push(str);
       }
@@ -84,7 +80,7 @@ app.post("/bfhl", (req, res) => {
       even_numbers,
       alphabets,
       special_characters,
-      sum: String(sum), // sum returned as string
+      sum: String(sum), 
       concat_string
     });
   } catch (err) {
@@ -105,3 +101,4 @@ app.post("/bfhl", (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`BFHL API running on port ${PORT}`));
+
